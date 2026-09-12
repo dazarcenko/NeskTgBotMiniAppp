@@ -1,22 +1,30 @@
 import sqlite3
 from pathlib import Path
 
-DB_PATH = Path("shop.db")
+
+BASE_DIR = Path(__file__).parent
+DB_PATH = BASE_DIR / "shop.db"
 
 
 def get_db():
-    conn = sqlite3.connect(DB_PATH)
+    conn = sqlite3.connect(
+        DB_PATH
+    )
+
     conn.row_factory = sqlite3.Row
+
     return conn
 
 
 def init_db():
+
     conn = get_db()
 
     conn.execute("""
         CREATE TABLE IF NOT EXISTS categories (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT NOT NULL
+            name TEXT NOT NULL,
+            image TEXT DEFAULT ''
         )
     """)
 
@@ -29,7 +37,8 @@ def init_db():
             price REAL NOT NULL,
             image TEXT DEFAULT '',
             available INTEGER DEFAULT 1,
-            FOREIGN KEY(category_id) REFERENCES categories(id)
+            FOREIGN KEY (category_id)
+                REFERENCES categories(id)
         )
     """)
 
@@ -37,11 +46,11 @@ def init_db():
         CREATE TABLE IF NOT EXISTS orders (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             telegram_id INTEGER,
-            username TEXT,
-            first_name TEXT,
-            items TEXT,
-            total REAL,
-            delivery TEXT,
+            username TEXT DEFAULT '',
+            first_name TEXT DEFAULT '',
+            items TEXT NOT NULL,
+            total REAL DEFAULT 0,
+            delivery TEXT DEFAULT '',
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
     """)
@@ -51,25 +60,29 @@ def init_db():
     ).fetchone()[0]
 
     if count == 0:
-    conn.execute(
-        "INSERT INTO categories (name) VALUES (?)",
-        ("Жижа",)
-    )
 
-    conn.execute(
-        "INSERT INTO categories (name) VALUES (?)",
-        ("Подсистемы",)
-    )
-else:
-    conn.execute(
-        "UPDATE categories SET name = ? WHERE id = 1",
-        ("Жижа",)
-    )
+        conn.execute(
+            "INSERT INTO categories (name, image) VALUES (?, ?)",
+            ("Жижа", "")
+        )
 
-    conn.execute(
-        "UPDATE categories SET name = ? WHERE id = 2",
-        ("Подсистемы",)
-    )
+        conn.execute(
+            "INSERT INTO categories (name, image) VALUES (?, ?)",
+            ("Подсистемы", "")
+        )
+
+    else:
+
+        conn.execute(
+            "UPDATE categories SET name = ? WHERE id = 1",
+            ("Жижа",)
+        )
+
+        conn.execute(
+            "UPDATE categories SET name = ? WHERE id = 2",
+            ("Подсистемы",)
+        )
 
     conn.commit()
+
     conn.close()

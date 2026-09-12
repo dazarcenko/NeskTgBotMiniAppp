@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    >
+
+    <title>Мой магазин</title>
+
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+<div class="app">
+
+    <header class="header">
+        <h1>🛍 Мой магазин</h1>
+        <p>Выберите категорию</p>
+    </header>
+
+    <main>
+
+        <section id="categoriesSection">
+
+            <h2>Категории</h2>
+
+            <div id="categories"></div>
+
+        </section>
+
+
+        <section
+            id="productsSection"
+            class="hidden"
+        >
+
+            <button
+                class="back-button"
+                onclick="showCategories()"
+            >
+                ← Назад
+            </button>
+
+            <h2 id="categoryTitle">
+                Товары
+            </h2>
+
+            <div id="products"></div>
+
+        </section>
+
+
+        <section
+            id="cartPage"
+            class="hidden"
+        >
+
+            <button
+                class="back-button"
+                onclick="showCategories()"
+            >
+                ← Каталог
+            </button>
+
+            <h2>🛒 Корзина</h2>
+
+            <div id="cart"></div>
+
+            <div class="cart-total">
+                <span>Итого:</span>
+
+                <strong id="total">
+                    0 ₽
+                </strong>
+            </div>
+
+            <button
+                class="main-button"
+                onclick="checkout()"
+            >
+                Оформить заказ
+            </button>
+
+        </section>
+
+
+        <section
+            id="checkoutPage"
+            class="hidden"
+        >
+
+            <button
+                class="back-button"
+                onclick="openCart()"
+            >
+                ← Назад
+            </button>
+
+            <h2>📋 Оформление заказа</h2>
+
+            <label>
+                Способ получения
+            </label>
+
+            <select id="delivery">
+
+                <option value="Самовывоз">
+                    Самовывоз
+                </option>
+
+                <option value="Доставка">
+                    Доставка
+                </option>
+
+            </select>
+
+            <button
+                class="main-button"
+                onclick="sendOrder()"
+            >
+                Заказать
+            </button>
+
+        </section>
+
+    </main>
+
+
+    <button
+        id="cartButton"
+        class="cart-button hidden"
+        onclick="openCart()"
+    >
+        🛒 Корзина
+
+        <span id="cartCount">
+            0
+        </span>
+
+    </button>
+
+</div>
+
+
+<script src="/static/app.js"></script>
+
+</body>
+
+</html>

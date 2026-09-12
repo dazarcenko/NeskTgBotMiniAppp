@@ -51,15 +51,25 @@ def init_db():
     ).fetchone()[0]
 
     if count == 0:
-        conn.execute(
-            "INSERT INTO categories (name) VALUES (?)",
-            ("Категория 1",)
-        )
+    conn.execute(
+        "INSERT INTO categories (name) VALUES (?)",
+        ("Жижа",)
+    )
 
-        conn.execute(
-            "INSERT INTO categories (name) VALUES (?)",
-            ("Категория 2",)
-        )
+    conn.execute(
+        "INSERT INTO categories (name) VALUES (?)",
+        ("Подсистемы",)
+    )
+else:
+    conn.execute(
+        "UPDATE categories SET name = ? WHERE id = 1",
+        ("Жижа",)
+    )
+
+    conn.execute(
+        "UPDATE categories SET name = ? WHERE id = 2",
+        ("Подсистемы",)
+    )
 
     conn.commit()
     conn.close()
